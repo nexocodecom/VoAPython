@@ -3,10 +3,11 @@ import numba
 import time
 import plotly.graph_objs as go
 import plotly.io as pio
+from typing import List, Dict, Tuple, Any
 
 
 @numba.njit(parallel=True)
-def Q_function(Q_grid, C_grid):
+def Q_function(Q_grid: np.ndarray, C_grid: np.ndarray) -> Dict[str, np.ndarray]:
     n = len(C_grid) - 1
     z = []
 
@@ -22,7 +23,7 @@ def Q_function(Q_grid, C_grid):
     return {"x": Q_grid[:, 0], "y": Q_grid[:, 1], "z": np.array(z)}
 
 
-def create_Q_grid(n=10):
+def create_Q_grid(n: int = 10) -> np.ndarray:
     u = np.linspace(0.5 / (n + 1), (0.5 + n) / (n + 1), n + 1)
     grid = np.stack(np.meshgrid(u, u)).T.reshape(-1, 2)
 
@@ -30,10 +31,9 @@ def create_Q_grid(n=10):
 
 
 @numba.njit(parallel=True)
-def calculate_copula_part(t, c):
+def calculate_copula_part(t: np.ndarray, c: np.ndarray) -> np.ndarray:
     n = len(t)
     n_inv = 1.0 / float(n)
-    c = np.zeros(c.shape)
     for i in numba.prange(1, int(n / 2) + 2):
         for j in numba.prange(int(n / 2) + 2):
             c[i, j] = c[0, j] + n_inv * np.sum(j >= t[:i])
@@ -41,14 +41,14 @@ def calculate_copula_part(t, c):
 
 
 @numba.njit
-def wn(n, c, i, j):
+def wn(n: int, c: float, i: int, j: int) -> float:
     u = (i + 0.5) / (n + 1)
     v = (j + 0.5) / (n + 1)
     return n**0.5 * (c - u * v) * (u * v * (1 - u) * (1 - v)) ** -0.5
 
 
 @numba.njit
-def fill_matrix(n, ks, c, x_prim, y_prim):
+def fill_matrix(n: int, ks: np.ndarray, c: np.ndarray, x_prim: bool, y_prim: bool) -> np.ndarray:
     sign = (-1) ** (x_prim + y_prim)
 
     for i in range(int(np.floor((n + 1) / 2)) + 1):
@@ -60,7 +60,7 @@ def fill_matrix(n, ks, c, x_prim, y_prim):
 
 
 @numba.njit
-def arma_copula(rx, ry):
+def arma_copula(rx: np.ndarray, ry: np.ndarray) -> np.ndarray:
     n = len(rx)
 
     ctab = np.zeros((n + 1, n + 1))
@@ -92,13 +92,13 @@ def arma_copula(rx, ry):
 
 
 @numba.njit
-def calculate_copula_grid(x, y):
+def calculate_copula_grid(x: np.ndarray, y: np.ndarray) -> np.ndarray:
     return arma_copula(
         np.argsort(np.argsort(x)) + 1, np.argsort(np.argsort(y)) + 1
     )
 
 
-def calculate_copula_mc_grid(x, y, mc=100, seed=0):
+def calculate_copula_mc_grid(x: np.ndarray, y: np.ndarray, mc: int = 100, seed: int = 0) -> np.ndarray:
     rng = np.random.RandomState(seed)
     k = len(x)
     g = np.zeros((k + 1, len(y) + 1))
@@ -110,20 +110,7 @@ def calculate_copula_mc_grid(x, y, mc=100, seed=0):
 
     return g
 
-def create_Q_plot(X, Y, k_plot_grid=100, MC=100, display=True):
-    """
-    Plot Q function based on Monte Carlo estimation.
-
-    Parameters:
-    - X: List or numpy array, first random variable e.g. [1.1, 2.2, 1.73].
-    - Y: List or numpy array, second random variable e.g. [3.1, 1.2, 1.93].
-    - k_plot_grid: Number of grid points for the plot, default is 100.
-    - MC: Number of Monte Carlo replications, default is 100.
-    - display: Boolean, if true the plot will be displayed, default is True.
-
-    Returns:
-    - A dictionary containing Q plot data, copula grid, Q grid, and plot points.
-    """
+def create_Q_plot(X: List[float], Y: List[float], k_plot_grid: int = 100, MC: int = 100, display: bool = True) -> Dict:
     if len(X) != len(Y):
         raise ValueError("Size of X and Y do not match")
 

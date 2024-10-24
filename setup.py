@@ -7,12 +7,12 @@ setup(
     description="Tools proposed in the paper 'Validation of Association'",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
-    url="https://arxiv.org/pdf/1904.06519",
+    url="https://github.com/nexocodecom/VoAPython",
     packages=find_packages(),
     install_requires=[
-        "numpy",
-        "numba",
-        "plotly",
+        "numpy >= 1.23.5",
+        "numba >= 0.58.1",
+        "plotly >= 5.18.0",
         # Add any other dependencies here
     ],
     classifiers=[
