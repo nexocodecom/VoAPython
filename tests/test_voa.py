@@ -1,5 +1,5 @@
 import numpy as np
-import voap
+import voa
 
 def test_copula():
     true_copula = np.array(
@@ -31,7 +31,7 @@ def test_copula():
 
     r = np.array(range(1, 11))
     s = np.array([3, 6, 2, 9, 4, 1, 7, 5, 8, 10])
-    test_copula = voap.calculate_copula_grid(r, s)
+    test_copula = voa.calculate_copula_grid(r, s)
     assert np.allclose(true_copula, test_copula, atol=1e-6), "Test failed: Copula grid is incorrect"
 
 
