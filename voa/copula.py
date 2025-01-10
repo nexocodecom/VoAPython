@@ -3,7 +3,7 @@ import numba
 import time
 import plotly.graph_objs as go
 from typing import List, Dict, Tuple, Any
-
+import math
 
 @numba.njit(parallel=True)
 def Q_function(Q_grid: np.ndarray, C_grid: np.ndarray) -> Dict[str, np.ndarray]:
@@ -14,7 +14,7 @@ def Q_function(Q_grid: np.ndarray, C_grid: np.ndarray) -> Dict[str, np.ndarray]:
     y = np.empty(M, dtype=np.float64)
     z = np.empty(M, dtype=np.float64)
 
-    for i in prange(M):
+    for i in numba.prange(M):
         xi = Q_grid[i, 0]
         yi = Q_grid[i, 1]
         x[i] = xi
