@@ -2,7 +2,6 @@ import numpy as np
 import numba
 import time
 import plotly.graph_objs as go
-import plotly.io as pio
 from typing import List, Dict, Tuple, Any
 
 
@@ -34,7 +33,7 @@ def Q_function(Q_grid: np.ndarray, C_grid: np.ndarray) -> Dict[str, np.ndarray]:
         # Lookup value in C_grid
         z[i] = C_grid[row_idx, col_idx]
 
-    return {"x": Q_grid[:, 0], "y": Q_grid[:, 1], "z": np.array(z)}
+    return {"x": x, "y": y, "z": z}
 
 
 def create_Q_grid(n: int = 10) -> np.ndarray:
