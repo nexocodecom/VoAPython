@@ -117,12 +117,13 @@ def calculate_copula_mc_grid(x: np.ndarray, y: np.ndarray, mc: int = 100, seed: 
     k = len(x)
     g = np.zeros((k + 1, len(y) + 1))
 
-    for i in range(mc):
+    for _ in range(mc):
         indx = rng.choice(k, size=k)
         mat = calculate_copula_grid(x[indx], y[indx])
         g += mat / mc
 
     return g
+
 
 def create_Q_plot(X: List[float], Y: List[float], k_plot_grid: int = 100, MC: int = 100, display: bool = True) -> Dict:
     if len(X) != len(Y):
