@@ -8,17 +8,31 @@ from typing import List, Dict, Tuple, Any
 
 @numba.njit(parallel=True)
 def Q_function(Q_grid: np.ndarray, C_grid: np.ndarray) -> Dict[str, np.ndarray]:
-    n = len(C_grid) - 1
-    z = []
+    n = C_grid.shape[0] - 1  # Because C_grid is (n+1) x (n+1)
+    M = Q_grid.shape[0]
 
-    for i in numba.prange(len(Q_grid)):
-        row_idx = int(np.ceil(Q_grid[i, 0] * (n + 1)) - 1)
-        col_idx = int(np.ceil(Q_grid[i, 1] * (n + 1)) - 1)
+    x = np.empty(M, dtype=np.float64)
+    y = np.empty(M, dtype=np.float64)
+    z = np.empty(M, dtype=np.float64)
+
+    for i in prange(M):
+        xi = Q_grid[i, 0]
+        yi = Q_grid[i, 1]
+        x[i] = xi
+        y[i] = yi
+
+        # Compute row/col indices
+        row_idx = int(math.ceil(xi * (n + 1)) - 1)
+        col_idx = int(math.ceil(yi * (n + 1)) - 1)
+
+        # Clamp indices to [0, n]
         if row_idx > n:
             row_idx = n
         if col_idx > n:
             col_idx = n
-        z.append(C_grid[row_idx, col_idx])
+
+        # Lookup value in C_grid
+        z[i] = C_grid[row_idx, col_idx]
 
     return {"x": Q_grid[:, 0], "y": Q_grid[:, 1], "z": np.array(z)}
 
