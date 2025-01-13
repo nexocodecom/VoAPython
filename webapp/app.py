@@ -130,7 +130,7 @@ def update_data_1(contents):
     """
     if contents is not None:
         df1 = parse_contents(contents)
-        return df1.to_dict('records')  # convert to dictionary for storing
+        return df1['Values']  # convert to dictionary for storing
     return dash.no_update
 
 @app.callback(
@@ -145,7 +145,7 @@ def update_data_2(contents):
     """
     if contents is not None:
         df2 = parse_contents(contents)
-        return df2.to_dict('records')
+        return df2['Values']
     return dash.no_update
 
 # -----------------------------
@@ -167,16 +167,16 @@ def generate_plot_and_results(n_clicks, data1, data2):
     Once both data sets are available and the user clicks "Generate Plot",
     generate the Q-plot and store the results.
     """
-    # if not data1 or not data2:
-    #     # If either data is missing, don't show anything
-    #     return px.scatter(), {'display': 'none'}, dash.no_update, dash.no_update
+    if not data1 or not data2:
+        # If either data is missing, don't show anything
+        return px.scatter(), {'display': 'none'}, dash.no_update, dash.no_update
 
     # Do your calculations here (example dummy data):
-    X = np.array(list(range(100)))
-    Y = np.array([x ** 2 for x in X])
+    # X = np.array(list(range(100)))
+    # Y = np.array([x ** 2 for x in X])
 
     # Create Q plot via your existing function
-    result = create_Q_plot(X, Y, k_plot_grid=100, MC=100, display=False)
+    result = create_Q_plot(data1, data2, k_plot_grid=100, MC=100, display=False)
     fig = result['Q_plot']
 
     # Return the figure, make it visible, and store the results
