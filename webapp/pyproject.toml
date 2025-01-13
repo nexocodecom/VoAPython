@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "webapp"
+version = "0.1.0"
+description = ""
+authors = ["Krzysztof Suwada <krzysztof.suwada@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10.12"
+plotly = "^5.24.1"
+dash = "^2.18.2"
+dash-bootstrap-components = "^1.6.0"
+pandas = "^2.2.3"
+voa = {git = "https://github.com/nexocodecom/VoAPython.git"}
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
