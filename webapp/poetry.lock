@@ -801,8 +801,8 @@ plotly = ">=5.18.0"
 [package.source]
 type = "git"
 url = "https://github.com/nexocodecom/VoAPython.git"
-reference = "HEAD"
-resolved_reference = "e9037ed6406d350b5cb8120a27064c1c8ef9ac71"
+reference = "web_app"
+resolved_reference = "d1792ff83f08cdcc4f180fd43ed6f2d0c3b1c983"
 
 [[package]]
 name = "werkzeug"
@@ -843,4 +843,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10.12"
-content-hash = "6eb4443f364149e684562733f458e02a99dcb0a22cd1a7799316e410bc0a9536"
+content-hash = "74653a5dd2f112002cc66904ff467de16ba4695dc0756f268da3548a14702ca8"

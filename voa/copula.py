@@ -150,7 +150,8 @@ def create_Q_plot(X: List[float], Y: List[float], k_plot_grid: int = 100, MC: in
         x=plot_points['x'],
         y=plot_points['y'],
         contours=dict(
-            coloring='jet'
+            coloring='heatmap',
+            color_continuous_scale='jet'
         )
     )
 
