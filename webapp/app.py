@@ -7,8 +7,7 @@ from dash import Dash, dcc, html, Input, Output, State, dash_table, ctx
 import pandas as pd
 import plotly.express as px
 import numpy as np
-import voa
-from voa import create_Q_plot
+from voa.copula import create_Q_plot
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 

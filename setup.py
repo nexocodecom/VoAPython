@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="VoA",
-    version="0.0.5",
+    version="0.0.5.1",
     author="Mateusz Przyborowski, Krzysztof Suwada, Hubert Bryłkowski",
     description="Tools proposed in the paper 'Validation of Association'",
     long_description=open("README.md").read(),
