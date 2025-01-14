@@ -149,9 +149,11 @@ def create_Q_plot(X: List[float], Y: List[float], k_plot_grid: int = 100, MC: in
         z=plot_points['z'],
         x=plot_points['x'],
         y=plot_points['y'],
-        contours=dict(
-            coloring='heatmap'
-        )
+        colorscale = 'jet'
+        # contours=dict(
+        #     coloring='heatmap',
+        #     color_continuous_scale='jet'
+        # )
     )
 
     layout = go.Layout(
