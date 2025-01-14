@@ -802,7 +802,7 @@ plotly = ">=5.18.0"
 type = "git"
 url = "https://github.com/nexocodecom/VoAPython.git"
 reference = "web_app"
-resolved_reference = "d1792ff83f08cdcc4f180fd43ed6f2d0c3b1c983"
+resolved_reference = "087748abf02696517f953183f000b8617e2ec39e"
 
 [[package]]
 name = "werkzeug"
